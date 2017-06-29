@@ -7,5 +7,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class EmailServerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EmailServerApplication.class, args);
-	}
+    }
 }

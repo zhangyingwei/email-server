@@ -2,8 +2,9 @@ package com.zhangyingwei.email.service;
 
 import com.zhangyingwei.email.exception.EmailServerException;
 import com.zhangyingwei.email.model.Email;
-import com.zhangyingwei.smail.Smail;
-import com.zhangyingwei.smail.config.SmailConfig;
+import com.zhangyingwei.email.smail.Smail;
+import com.zhangyingwei.email.smail.config.SmailConfig;
+import com.zhangyingwei.email.smail.exception.SmailException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,14 @@ public class EmailService {
     private String password;
     public void sendEmail(Email email) throws EmailServerException {
         try {
-            new Smail(new SmailConfig().setStarttls(true)).auth(username, password).to(email.getToAddress()).send(email.getSubject(), email.getContent(),null);
+            new Smail(new SmailConfig().setStarttls(true)).auth(username, password).to(email.getToAddress(),email.getNikeName()).send(email.getSubject(), email.getContent());
         } catch (MessagingException e) {
             e.printStackTrace();
             throw new EmailServerException(e.getMessage());
         } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            throw new EmailServerException(e.getMessage());
+        } catch (SmailException e) {
             e.printStackTrace();
             throw new EmailServerException(e.getMessage());
         }
